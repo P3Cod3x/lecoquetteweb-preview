@@ -91,7 +91,7 @@ export function SiteHeader() {
         href="/"
         className={cn(
           "relative z-[60] block w-[10.5rem] transition-colors duration-500 md:w-[13rem]",
-          leftTone === "light" ? "text-white" : "text-[oklch(0.269_0.010_303.8/0.82)]"
+          leftTone === "light" ? "text-white" : "text-foreground-strong/80"
         )}
         aria-label="LeCoquette home"
       >

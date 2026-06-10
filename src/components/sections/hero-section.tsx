@@ -21,16 +21,42 @@ export function HeroSection() {
       const { gsap, ScrollTrigger } = ensureGsap();
 
       // --- Entry animations ---
-      gsap.fromTo(
-        ".hero-logo",
-        { yPercent: 18, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 1.1, ease: "power3.out", delay: 0.1 }
-      );
-      gsap.fromTo(
-        ".hero-tagline",
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", delay: 0.5 }
-      );
+      // On the first visit the brand loader owns the intro: it paints the same
+      // wordmark and hands the scene over via `loader:reveal`. In that case the
+      // hero wordmark is already settled (it visually continues the loader's),
+      // and only the supporting elements fade in once the veil lifts. On a
+      // return visit the loader is skipped, so the hero plays its own entrance.
+      const loaderActive =
+        typeof window !== "undefined" && !window.sessionStorage.getItem("lecoquette-loader-seen");
+
+      const revealSupporting = () =>
+        gsap.fromTo(
+          ".hero-reveal",
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.12 }
+        );
+
+      let onReveal: (() => void) | undefined;
+      let fallbackId = 0;
+
+      if (loaderActive) {
+        gsap.set(".hero-logo", { yPercent: 0, opacity: 1 });
+        gsap.set(".hero-reveal", { opacity: 0 });
+        onReveal = () => revealSupporting();
+        window.addEventListener("loader:reveal", onReveal, { once: true });
+        fallbackId = window.setTimeout(revealSupporting, 2600);
+      } else {
+        gsap.fromTo(
+          ".hero-logo",
+          { yPercent: 18, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 1.1, ease: "power3.out", delay: 0.1 }
+        );
+        gsap.fromTo(
+          ".hero-reveal",
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", delay: 0.5, stagger: 0.12 }
+        );
+      }
 
       // --- Parallax scroll (mientras la siguiente sección cubre el hero) ---
       // El trigger va desde "top top" hasta "bottom top":
@@ -75,6 +101,8 @@ export function HeroSection() {
       });
 
       return () => {
+        if (onReveal) window.removeEventListener("loader:reveal", onReveal);
+        if (fallbackId) window.clearTimeout(fallbackId);
         mm.revert();
         ScrollTrigger.getAll().forEach((t) => {
           if (containerRef.current?.contains(t.trigger as Node)) t.kill();
@@ -118,10 +146,10 @@ export function HeroSection() {
         </h1>
 
         <p
-          className="hero-tagline font-body mt-7 text-center uppercase sm:mt-8 md:mt-10"
+          className="hero-reveal font-body mt-7 text-center uppercase sm:mt-8 md:mt-10"
           style={{
             fontSize: "clamp(0.66rem, 2.2vw, 0.94rem)",
-            color: "oklch(0.637 0.177 32.7 / 0.75)",
+            color: "color-mix(in oklab, var(--color-primary) 75%, transparent)",
             letterSpacing: "clamp(0.12em, 1vw, 0.3em)",
             textShadow: "1px 2px 6px rgba(90,28,8,0.18)",
             width: "min(34rem, 100%)",
@@ -135,10 +163,10 @@ export function HeroSection() {
       </div>
 
       {/* Scroll hint */}
-      <div className="absolute bottom-5 left-0 w-full flex justify-center pointer-events-none">
+      <div className="hero-reveal absolute bottom-5 left-0 w-full flex justify-center pointer-events-none">
         <span
           className="hero-scroll-line block w-px"
-          style={{ height: "3rem", background: "oklch(0.637 0.177 32.7 / 0.40)" }}
+          style={{ height: "3rem", background: "color-mix(in oklab, var(--color-primary) 40%, transparent)" }}
           aria-hidden="true"
         />
       </div>

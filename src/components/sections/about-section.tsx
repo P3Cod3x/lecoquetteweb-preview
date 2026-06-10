@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ensureGsap } from "@/lib/motion/gsap";
 import { usePrefersReducedMotion } from "@/lib/motion/reduced-motion";
 import { assetPath } from "@/lib/utils";
+import { Eyebrow } from "@/components/ui/eyebrow";
 
 
 const PILLARS = [
@@ -84,7 +85,7 @@ function DesktopAbout() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(270deg, oklch(0.120 0.010 35 / 0.95) 0%, oklch(0.120 0.010 35 / 0.88) 35%, oklch(0.120 0.010 35 / 0.50) 65%, transparent 100%)",
+              "linear-gradient(270deg, color-mix(in oklab, var(--color-noir-deep) 95%, transparent) 0%, color-mix(in oklab, var(--color-noir-deep) 88%, transparent) 35%, color-mix(in oklab, var(--color-noir-deep) 50%, transparent) 65%, transparent 100%)",
           }}
           aria-hidden="true"
         />
@@ -93,21 +94,15 @@ function DesktopAbout() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, oklch(0.180 0.008 35 / 0.22) 0%, transparent 32%, transparent 72%, oklch(0.180 0.008 35 / 0.34) 100%)",
+              "linear-gradient(180deg, color-mix(in oklab, var(--color-noir) 22%, transparent) 0%, transparent 32%, transparent 72%, color-mix(in oklab, var(--color-noir) 34%, transparent) 100%)",
           }}
           aria-hidden="true"
         />
 
         <div className="relative ml-auto flex h-full max-w-[42rem] flex-col justify-center px-10 py-20 text-left xl:px-16">
-          <div className="ab-copy mb-6 flex items-center justify-start gap-3">
-            <span className="block h-px w-8 shrink-0" style={{ background: "oklch(0.780 0.060 75)" }} />
-            <span
-              className="font-body text-[0.68rem] uppercase tracking-[0.28em]"
-              style={{ color: "oklch(0.780 0.060 75)" }}
-            >
-              Our Story
-            </span>
-          </div>
+          <Eyebrow tone="accent" lines="start" className="ab-copy mb-6">
+            Our Story
+          </Eyebrow>
 
           <h2
             className="ab-copy font-display m-0"
@@ -115,13 +110,13 @@ function DesktopAbout() {
               fontSize: "clamp(3.2rem, 6vw, 5.6rem)",
               lineHeight: 0.96,
               letterSpacing: "-0.03em",
-              color: "oklch(0.985 0.010 55)",
+              color: "var(--color-background)",
               textShadow: "0 4px 24px rgba(0,0,0,0.4)",
             }}
           >
             A softer kind
             <br />
-            <span style={{ color: "oklch(0.780 0.060 75)" }}>of luxury.</span>
+            <span style={{ color: "var(--color-noir-accent)" }}>of luxury.</span>
           </h2>
 
           <p
@@ -129,7 +124,7 @@ function DesktopAbout() {
             style={{
               fontSize: "clamp(0.95rem, 1.45vw, 1.05rem)",
               lineHeight: 1.88,
-              color: "oklch(0.940 0.015 60 / 0.80)",
+              color: "color-mix(in oklab, var(--color-noir-foreground) 80%, transparent)",
               textShadow: "0 2px 14px rgba(0,0,0,0.5)",
             }}
           >
@@ -138,20 +133,20 @@ function DesktopAbout() {
             nail and beauty experience that stays with you long after you leave.
           </p>
 
-          <div className="ab-copy mt-10 mb-8 h-px w-10" style={{ background: "oklch(0.780 0.060 75 / 0.38)" }} />
+          <div className="ab-copy mt-10 mb-8 h-px w-10" style={{ background: "color-mix(in oklab, var(--color-noir-accent) 38%, transparent)" }} />
 
           <div className="flex flex-col gap-4">
             {PILLARS.map((pillar) => (
               <div key={pillar.label} className="ab-copy flex items-baseline gap-5">
                 <span
                   className="font-body w-24 shrink-0 text-[0.62rem] uppercase tracking-[0.24em]"
-                  style={{ color: "oklch(0.780 0.060 75 / 0.64)" }}
+                  style={{ color: "color-mix(in oklab, var(--color-noir-accent) 64%, transparent)" }}
                 >
                   {pillar.label}
                 </span>
                 <span
                   className="font-body"
-                  style={{ fontSize: "0.9rem", fontWeight: 500, color: "oklch(0.940 0.015 60 / 0.90)" }}
+                  style={{ fontSize: "0.9rem", fontWeight: 500, color: "color-mix(in oklab, var(--color-noir-foreground) 90%, transparent)" }}
                 >
                   {pillar.value}
                 </span>
@@ -220,23 +215,16 @@ function MobileAbout() {
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, oklch(0.120 0.010 35 / 0.16) 0%, oklch(0.120 0.010 35 / 0.40) 40%, oklch(0.120 0.010 35 / 0.88) 75%, oklch(0.120 0.010 35 / 0.95) 100%)",
+                "linear-gradient(180deg, color-mix(in oklab, var(--color-noir-deep) 16%, transparent) 0%, color-mix(in oklab, var(--color-noir-deep) 40%, transparent) 40%, color-mix(in oklab, var(--color-noir-deep) 88%, transparent) 75%, color-mix(in oklab, var(--color-noir-deep) 95%, transparent) 100%)",
             }}
             aria-hidden="true"
           />
 
           <div className="relative flex min-h-[100svh] items-end px-5 pb-14 pt-28">
             <div className="ml-auto w-full max-w-[22rem] text-right">
-              <div className="mob-ab-copy mb-5 flex items-center gap-3">
-                <span className="grow" />
-                <span
-                  className="font-body text-[0.66rem] uppercase tracking-[0.28em]"
-                  style={{ color: "oklch(0.780 0.060 75)" }}
-                >
-                  Our Story
-                </span>
-                <span className="block h-px w-7 shrink-0" style={{ background: "oklch(0.780 0.060 75)" }} />
-              </div>
+              <Eyebrow tone="accent" lines="end" lineClassName="w-7" className="mob-ab-copy mb-5 ml-auto">
+                Our Story
+              </Eyebrow>
 
               <h2
                 className="mob-ab-copy font-display m-0"
@@ -244,13 +232,13 @@ function MobileAbout() {
                   fontSize: "clamp(2.8rem, 10vw, 4rem)",
                   lineHeight: 0.98,
                   letterSpacing: "-0.03em",
-                  color: "oklch(0.985 0.010 55)",
+                  color: "var(--color-background)",
                   textShadow: "0 4px 24px rgba(0,0,0,0.4)",
                 }}
               >
                 A softer kind
                 <br />
-                <span style={{ color: "oklch(0.780 0.060 75)" }}>of luxury.</span>
+                <span style={{ color: "var(--color-noir-accent)" }}>of luxury.</span>
               </h2>
 
               <p
@@ -258,7 +246,7 @@ function MobileAbout() {
                 style={{
                   fontSize: "0.96rem",
                   lineHeight: 1.82,
-                  color: "oklch(0.940 0.015 60 / 0.82)",
+                  color: "color-mix(in oklab, var(--color-noir-foreground) 82%, transparent)",
                   textShadow: "0 2px 14px rgba(0,0,0,0.5)",
                 }}
               >
@@ -271,13 +259,13 @@ function MobileAbout() {
                   <div key={pillar.label} className="flex items-baseline justify-end gap-4">
                     <span
                       className="font-body"
-                      style={{ fontSize: "0.875rem", fontWeight: 500, color: "oklch(0.985 0.010 55 / 0.90)" }}
+                      style={{ fontSize: "0.875rem", fontWeight: 500, color: "color-mix(in oklab, var(--color-background) 90%, transparent)" }}
                     >
                       {pillar.value}
                     </span>
                     <span
                       className="font-body w-20 shrink-0 text-right text-[0.62rem] uppercase tracking-[0.22em]"
-                      style={{ color: "oklch(0.780 0.060 75 / 0.72)" }}
+                      style={{ color: "color-mix(in oklab, var(--color-noir-accent) 72%, transparent)" }}
                     >
                       {pillar.label}
                     </span>

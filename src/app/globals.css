@@ -1,22 +1,51 @@
 @import "tailwindcss";
 
-:root {
+/* ─────────────────────────────────────────────────────────────────────────
+   Design tokens — single source of truth (Tailwind v4 @theme).
+   Every color/easing/radius below also generates a utility (bg-primary,
+   text-foreground-strong, border-border, ease-standard, rounded-pill, …).
+   Components must consume these tokens — never raw oklch() literals.
+   ───────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Surfaces & background */
   --color-background: oklch(0.985 0.010 55);
   --color-surface: oklch(0.952 0.020 52);
   --color-surface-alt: oklch(0.852 0.091 51.4);
+  --color-surface-mute: oklch(0.930 0.022 50);
+
+  /* Foreground / text */
   --color-foreground: oklch(0.410 0.109 36.5);
   --color-foreground-strong: oklch(0.269 0.010 303.8);
   --color-foreground-muted: oklch(0.560 0.050 35);
+
+  /* Brand */
   --color-primary: oklch(0.637 0.177 32.7);
   --color-primary-hover: oklch(0.600 0.197 32.7);
   --color-secondary: oklch(0.852 0.091 51.4);
+
+  /* Lines */
   --color-border: oklch(0.900 0.025 50);
+
+  /* Dark / noir surfaces */
   --color-noir: oklch(0.180 0.008 35);
+  --color-noir-deep: oklch(0.120 0.010 35);
   --color-noir-foreground: oklch(0.940 0.015 60);
   --color-noir-accent: oklch(0.780 0.060 75);
-  --duration-medium: 260ms;
+
+  /* Motion easing */
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-emphasized: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Radius */
   --radius-pill: 9999px;
+}
+
+/* Non-utility design tokens (consumed via var()) */
+:root {
+  --duration-fast: 150ms;
+  --duration-medium: 260ms;
+  --duration-slow: 500ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -59,7 +88,7 @@ select {
 }
 
 ::selection {
-  background: rgba(226, 88, 62, 0.18);
+  background: color-mix(in oklab, var(--color-primary) 18%, transparent);
 }
 
 .font-display {
@@ -96,4 +125,54 @@ select {
 .hero-scroll-line {
   transform-origin: top center;
   animation: scroll-line-draw 2s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Brand loader — wordmark reveal. Motion is driven entirely by GSAP
+   (see brand-loader.tsx); CSS only sets the static, paint-ready stage so
+   there is no flash before hydration and no competing CSS animation.
+   ───────────────────────────────────────────────────────────────────────── */
+.brand-loader-shell {
+  color: var(--color-primary);
+  isolation: isolate;
+}
+
+/* Opaque cream base that hides the hero until the veil lifts. */
+.brand-loader-veil {
+  background:
+    radial-gradient(circle at top, rgba(255, 235, 224, 0.9), transparent 34%),
+    linear-gradient(180deg, #fffaf6 0%, #fff5ef 40%, #fffaf6 100%);
+  will-change: opacity;
+}
+
+.brand-loader-ambient {
+  /* Start hidden so the paint-before-hydration frame matches GSAP's "from"
+     state (autoAlpha: 0) — prevents the FOUC jump on first load. */
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.96) 0%, rgba(255, 246, 241, 0.6) 30%, transparent 60%),
+    radial-gradient(ellipse at 22% 16%, rgba(238, 129, 91, 0.12) 0%, transparent 44%),
+    radial-gradient(ellipse at 82% 80%, rgba(187, 73, 43, 0.09) 0%, transparent 48%),
+    linear-gradient(135deg, #fffdfb 0%, #fff5ef 48%, #fffaf7 100%);
+}
+
+.brand-loader-grain {
+  background-image:
+    linear-gradient(rgba(124, 55, 32, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 55, 32, 0.025) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mix-blend-mode: multiply;
+  opacity: 0.16;
+}
+
+.brand-loader-mark {
+  /* Hidden until GSAP fades it in (autoAlpha) — no flash of the full
+     wordmark during hydration. */
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
+.brand-loader-glint {
+  opacity: 0;
+  will-change: transform, opacity;
 }

@@ -18,6 +18,15 @@ const config = [
       "postcss.config.mjs",
     ],
   },
+  {
+    // Allow intentionally-unused args/vars when prefixed with "_".
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ];
 
 export default config;

@@ -7,6 +7,7 @@ import { ensureGsap } from "@/lib/motion/gsap";
 import { usePrefersReducedMotion } from "@/lib/motion/reduced-motion";
 import { getBookingLink } from "@/lib/booking/get-booking-link";
 import { assetPath } from "@/lib/utils";
+import { Eyebrow } from "@/components/ui/eyebrow";
 
 
 // ─── Types & Data ─────────────────────────────────────────────────────────────
@@ -132,7 +133,7 @@ function BookingTextLink({
         target="_blank"
         rel="noopener noreferrer"
         id={id}
-        className="group relative inline-flex items-center gap-3 overflow-hidden px-1 pt-1 pb-2 font-display text-[1.2rem] tracking-[-0.02em] text-[oklch(0.637_0.177_32.7)] transition-colors hover:text-opacity-70"
+        className="group relative inline-flex items-center gap-3 overflow-hidden px-1 pt-1 pb-2 font-display text-[1.2rem] tracking-[-0.02em] text-primary transition-colors hover:text-opacity-70"
       >
         <span className="relative">
           {label}
@@ -169,22 +170,22 @@ function PriceList({
   return (
     <ul
       className="mt-5 space-y-2.5 border-t pt-5"
-      style={{ borderColor: "oklch(0.900 0.025 50)" }}
+      style={{ borderColor: "var(--color-border)" }}
       aria-label={ariaLabel}
     >
       {items.map((item) => (
         <li key={item.name} className="flex items-baseline justify-between gap-3">
           <span
             className="font-body flex items-center gap-2 leading-snug"
-            style={{ fontSize: "0.83rem", color: "oklch(0.410 0.109 36.5)" }}
+            style={{ fontSize: "0.83rem", color: "var(--color-foreground)" }}
           >
             {item.name}
             {item.tag ? (
               <span
                 className="inline-block rounded-full px-2 py-px text-[0.58rem] font-medium uppercase tracking-[0.1em]"
                 style={{
-                  background: "oklch(0.637 0.177 32.7 / 0.10)",
-                  color: "oklch(0.637 0.177 32.7)",
+                  background: "color-mix(in oklab, var(--color-primary) 10%, transparent)",
+                  color: "var(--color-primary)",
                 }}
               >
                 {item.tag}
@@ -193,7 +194,7 @@ function PriceList({
           </span>
           <span
             className="font-body shrink-0 tabular-nums"
-            style={{ fontSize: "0.83rem", fontWeight: 500, color: "oklch(0.269 0.010 303.8)" }}
+            style={{ fontSize: "0.83rem", fontWeight: 500, color: "var(--color-foreground-strong)" }}
           >
             {item.price}
           </span>
@@ -317,7 +318,7 @@ function MobileShowcaseCard({
           style={{
             fontSize: "clamp(5rem, 22vw, 9rem)",
             lineHeight: 1,
-            color: "oklch(1 0 0 / 0.08)",
+            color: "rgb(255 255 255 / 0.08)",
             bottom: "-0.1em",
             right: "0.05em",
           }}
@@ -328,25 +329,19 @@ function MobileShowcaseCard({
 
       <div
         className="px-5 py-8"
-        style={{ background: "oklch(0.985 0.010 55)" }}
+        style={{ background: "var(--color-background)" }}
         data-header-theme="dark"
       >
-        <div className="mc-text mb-4 flex items-center gap-2.5">
-          <span className="block h-px w-6 shrink-0" style={{ background: "oklch(0.637 0.177 32.7)" }} />
-          <span
-            className="font-body text-[0.68rem] uppercase tracking-[0.26em]"
-            style={{ color: "oklch(0.637 0.177 32.7)" }}
-          >
-            {subline}
-          </span>
-        </div>
+        <Eyebrow lines="start" lineClassName="w-6" className="mc-text mb-4">
+          {subline}
+        </Eyebrow>
 
         <h2
           className="mc-text font-display m-0"
           style={{
             fontSize: "clamp(2rem, 8vw, 2.6rem)",
             lineHeight: 1.08,
-            color: "oklch(0.269 0.010 303.8)",
+            color: "var(--color-foreground-strong)",
             whiteSpace: "pre-line",
           }}
         >
@@ -357,7 +352,7 @@ function MobileShowcaseCard({
           className="mc-text font-body mt-2.5"
           style={{
             fontSize: "0.78rem",
-            color: "oklch(0.637 0.177 32.7)",
+            color: "var(--color-primary)",
             letterSpacing: "0.14em",
             textTransform: "uppercase",
           }}
@@ -370,7 +365,7 @@ function MobileShowcaseCard({
           style={{
             fontSize: "0.95rem",
             lineHeight: 1.75,
-            color: "oklch(0.560 0.050 35)",
+            color: "var(--color-foreground-muted)",
           }}
         >
           {body}
@@ -413,7 +408,7 @@ function MobileCard({ ritual, i }: { ritual: Ritual; i: number }) {
       {i < RITUALS.length - 1 && (
         <div
           className="mx-5 h-px"
-          style={{ background: "oklch(0.900 0.025 50)" }}
+          style={{ background: "var(--color-border)" }}
         />
       )}
     </>
@@ -465,16 +460,9 @@ function MobileAddOnsCard() {
 function DesktopRitualText({ ritual }: { ritual: Ritual }) {
   return (
     <div className="flex h-full flex-col justify-center overflow-y-auto px-10 py-12 xl:px-16">
-      {/* Eyebrow */}
-      <div className="mb-5 flex items-center gap-3">
-        <span className="block h-px w-8 shrink-0" style={{ background: "oklch(0.637 0.177 32.7)" }} />
-        <span
-          className="font-body text-xs uppercase tracking-[0.26em]"
-          style={{ color: "oklch(0.637 0.177 32.7)" }}
-        >
-          {ritual.subline}
-        </span>
-      </div>
+      <Eyebrow lines="start" className="mb-5">
+        {ritual.subline}
+      </Eyebrow>
 
       {/* Headline */}
       <h2
@@ -482,7 +470,7 @@ function DesktopRitualText({ ritual }: { ritual: Ritual }) {
         style={{
           fontSize: "clamp(2rem, 3.8vw, 3rem)",
           lineHeight: 1.08,
-          color: "oklch(0.269 0.010 303.8)",
+          color: "var(--color-foreground-strong)",
           whiteSpace: "pre-line",
         }}
       >
@@ -494,7 +482,7 @@ function DesktopRitualText({ ritual }: { ritual: Ritual }) {
         className="font-body mt-3"
         style={{
           fontSize: "0.8rem",
-          color: "oklch(0.637 0.177 32.7)",
+          color: "var(--color-primary)",
           letterSpacing: "0.14em",
           textTransform: "uppercase",
         }}
@@ -505,7 +493,7 @@ function DesktopRitualText({ ritual }: { ritual: Ritual }) {
       {/* Body */}
       <p
         className="font-body mt-4 max-w-[36ch]"
-        style={{ fontSize: "clamp(0.9rem, 1.4vw, 1rem)", lineHeight: 1.78, color: "oklch(0.560 0.050 35)" }}
+        style={{ fontSize: "clamp(0.9rem, 1.4vw, 1rem)", lineHeight: 1.78, color: "var(--color-foreground-muted)" }}
       >
         {ritual.body}
       </p>
@@ -518,19 +506,16 @@ function DesktopRitualText({ ritual }: { ritual: Ritual }) {
 function DesktopAddonsText() {
   return (
     <div className="flex h-full flex-col justify-center overflow-y-auto px-10 py-12 xl:px-16 text-left">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="block h-px w-8 shrink-0" style={{ background: "oklch(0.637 0.177 32.7)" }} />
-        <span className="font-body text-xs uppercase tracking-[0.26em]" style={{ color: "oklch(0.637 0.177 32.7)" }}>
-          Additional Services
-        </span>
-      </div>
+      <Eyebrow lines="start" className="mb-5">
+        Additional Services
+      </Eyebrow>
 
       <h2
         className="font-display m-0"
         style={{
           fontSize: "clamp(2rem, 3.8vw, 3rem)",
           lineHeight: 1.08,
-          color: "oklch(0.269 0.010 303.8)",
+          color: "var(--color-foreground-strong)",
         }}
       >
         Complete your
@@ -540,14 +525,12 @@ function DesktopAddonsText() {
 
       <p
         className="font-body mt-4 max-w-[36ch]"
-        style={{ fontSize: "clamp(0.9rem, 1.4vw, 1rem)", lineHeight: 1.78, color: "oklch(0.560 0.050 35)" }}
+        style={{ fontSize: "clamp(0.9rem, 1.4vw, 1rem)", lineHeight: 1.78, color: "var(--color-foreground-muted)" }}
       >
         Elevate any visit with curated additions, from precision brow shaping to little luxuries that make the appointment feel fully considered.
       </p>
 
-      <div className="mt-2 max-w-sm">
-        <AddOnList ariaLabel="Additional service prices" />
-      </div>
+      <AddOnList ariaLabel="Additional service prices" />
     </div>
   );
 }
@@ -632,7 +615,7 @@ function DesktopPinnedRituals() {
         style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
       >
         {/* ── LEFT column: img-0 (Manicure), img-2 (Bundles), txt-1 (Pedicure), txt-3 (Add-ons) ── */}
-        <div className="relative h-full overflow-hidden" style={{ background: "oklch(0.930 0.022 50)" }} data-header-theme="light">
+        <div className="relative h-full overflow-hidden" style={{ background: "var(--color-surface-mute)" }} data-header-theme="light">
           {/* Manicure image — enters first */}
           <div
             className="pin-img-0 absolute inset-0 will-change-transform"
@@ -650,20 +633,20 @@ function DesktopPinnedRituals() {
           {/* Pedicure text — visible between beats 1→2 */}
           <div
             className="pin-txt-1 absolute inset-0"
-            style={{ zIndex: 10, background: "oklch(0.985 0.010 55)", visibility: "hidden", opacity: 0 }}
+            style={{ zIndex: 10, background: "var(--color-background)", visibility: "hidden", opacity: 0 }}
           >
             <DesktopRitualText ritual={RITUALS[1]} />
           </div>
           <div
             className="pin-txt-3 absolute inset-0"
-            style={{ zIndex: 10, background: "oklch(0.985 0.010 55)", visibility: "hidden", opacity: 0 }}
+            style={{ zIndex: 10, background: "var(--color-background)", visibility: "hidden", opacity: 0 }}
           >
             <DesktopAddonsText />
           </div>
         </div>
 
         {/* ── RIGHT column: txt-0 (Manicure), img-1 (Pedicure), txt-2 (Bundles), img-3 (Add-ons) ── */}
-        <div className="relative h-full overflow-hidden" style={{ background: "oklch(0.985 0.010 55)" }} data-header-theme="dark">
+        <div className="relative h-full overflow-hidden" style={{ background: "var(--color-background)" }} data-header-theme="dark">
           {/* Manicure text — visible beat 0→1 */}
           <div
             className="pin-txt-0 absolute inset-0"
@@ -702,7 +685,7 @@ function DesktopPinnedRituals() {
 function AddOnsSection() {
   return (
     <div className="md:hidden">
-      <div className="bg-[oklch(0.985_0.010_55)]">
+      <div className="bg-background">
         <MobileAddOnsCard />
       </div>
     </div>
@@ -735,22 +718,18 @@ function ServicesIntro() {
     <div
       ref={ref}
       className="relative z-10 mx-auto max-w-2xl px-5 py-16 text-center md:py-20"
-      style={{ background: "oklch(0.985 0.010 55)" }}
+      style={{ background: "var(--color-background)" }}
     >
-      <div className="intro-item mb-5 flex items-center justify-center gap-3">
-        <span className="block h-px w-7" style={{ background: "oklch(0.637 0.177 32.7 / 0.45)" }} />
-        <span className="font-body text-[0.68rem] uppercase tracking-[0.28em]" style={{ color: "oklch(0.637 0.177 32.7)" }}>
-          The Rituals
-        </span>
-        <span className="block h-px w-7" style={{ background: "oklch(0.637 0.177 32.7 / 0.45)" }} />
-      </div>
+      <Eyebrow lines="both" lineClassName="w-7 bg-primary/45" className="intro-item mb-5 justify-center">
+        The Rituals
+      </Eyebrow>
 
       <h2
         className="intro-item font-display m-0"
         style={{
           fontSize: "clamp(2.4rem, 8vw, 4rem)",
           lineHeight: 1.06,
-          color: "oklch(0.269 0.010 303.8)",
+          color: "var(--color-foreground-strong)",
           letterSpacing: "-0.01em",
         }}
       >
@@ -762,7 +741,7 @@ function ServicesIntro() {
         style={{
           fontSize: "clamp(0.93rem, 3.5vw, 1.05rem)",
           lineHeight: 1.78,
-          color: "oklch(0.560 0.050 35)",
+          color: "var(--color-foreground-muted)",
           maxWidth: "38ch",
         }}
       >
@@ -778,7 +757,7 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      style={{ position: "relative", zIndex: 10, background: "oklch(0.985 0.010 55)" }}
+      style={{ position: "relative", zIndex: 10, background: "var(--color-background)" }}
     >
       <ServicesIntro />
 
